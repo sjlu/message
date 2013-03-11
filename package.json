@@ -1,0 +1,20 @@
+{
+  "name": "message",
+  "description": "A Node.js abstraction to help you send push notifications to mobile devices.",
+  "version": "0.0.1",
+  "author": "Steven Lu <slu@me.com>",
+  "dependencies": {
+    "express": "3.x",
+    "moment": "2.x",
+    "lodash": "1.x",
+    "redis": "0.8.x"
+  },
+  "devDependencies": {
+    "mocha": "1.8.x"
+  },
+  "scripts": {
+    "start": "server.js",
+    "test": "make test"
+  },
+  "main": "app.js"
+}
