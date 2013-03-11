@@ -14,8 +14,7 @@ exports.require = function(type)
 
 	try {
 		Device = require('./devices/'+type.toLowerCase().trim());
-	} catch (e)
-	{
+	} catch (e) {
 		throw new Error('No such device type exists. ('+type+')');
 	}
 
@@ -33,7 +32,8 @@ exports.add = function(type, key, callback)
 	var device = new Device(key);
 
 	// Do a database insert.
-	return devices.save(device.format(), function (err, data) { 
+	return devices.save(device.format(), function (err, data) 
+	{ 
 		if (err)
 		{
 			if (err.code == 11000) // this is duplicate row found error
@@ -71,6 +71,6 @@ exports.get = function(id, callback)
 	});
 };
 
-// exports.get('513e515e213ef90000000001', function(d) {
+// exports.add('android1', '123123', function(d) {
 // 	console.log(d);
 // });
