@@ -1,6 +1,7 @@
 var mongo = require('mongojs');
 var db = mongo('mongodb://localhost/message');
 var devices = db.collection('devices');
+var _ = require('lodash');
 
 // mongo db related things.
 devices.ensureIndex({type: 1, key: 1}, {unique: true});
@@ -29,24 +30,25 @@ exports.add = function(type, key, callback)
 	var Device = this.require(type);
 
 	// generate a new device
-	var device = new Device(key);
+	var device = new Device({key: key});
 
 	// Do a database insert.
-	return devices.save(device.format(), function (err, data) 
+	return devices.save(_.clone(device), function (err, data) 
 	{ 
 		if (err)
 		{
 			if (err.code == 11000) // this is duplicate row found error
 			{
-				return devices.findOne(device.format(), function (err, data) {
-					return callback({ id: data._id, device: device });
+				return devices.findOne(device, function (err, data) {
+					return callback(new Device(data));
 				});
 			}
 			else
 				throw new Error('Issue trying to save to the database. ('+err.code+')');
 		}
 
-		return callback({ id: data._id, device: device });
+		// return callback(_.assign(device, { _id: data._id }));
+		return callback(new Device(data));
 	});
 };
 
@@ -65,12 +67,12 @@ exports.get = function(id, callback)
 			throw new Error('Could not find the device.');
 
 		var Device = _this.require(data.type);
-		var device = new Device(data.key);
+		var device = new Device(data);
 
-		return callback({ id: data._id, device: device });
+		return callback(device);
 	});
 };
 
-// exports.add('android1', '123123', function(d) {
-// 	console.log(d);
-// });
+// exports.get('513ecc541898add61a000001', function(e){
+// 	console.log(e);
+// })
