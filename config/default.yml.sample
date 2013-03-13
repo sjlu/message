@@ -1,0 +1,6 @@
+mongo: mongodb://localhost/message
+
+ios:
+	key:
+	cert:
+	ca:

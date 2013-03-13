@@ -9,7 +9,9 @@
     "lodash": "1.x",
     "redis": "0.8.x",
     "mongojs": "0.7.x",
-    "apn": "1.2.x"
+    "apn": "1.2.x",
+    "config": "0.4.x",
+    "js-yaml": "2.0.x"
   },
   "devDependencies": {
     "mocha": "1.8.x"

@@ -1,10 +1,14 @@
-var devices = require('./app/devices');
-var messages = require('./app/messages');
+var devices = require('./lib/devices');
+var messages = require('./lib/messages');
+var db = require('./lib/database');
 
 exports.registerDevice = function(type, key, callback)
 {
+	db.getInstance();
+
 	var handler = function(device)
 	{
+		db.destroyInstance();
 		return callback({ id: device.getId() });
 	};
 
@@ -13,37 +17,47 @@ exports.registerDevice = function(type, key, callback)
 	} catch (e) {
 		callback({ error: e.message });
 	}
+
+	return;
 };
 
 exports.sendMessage = function(id, message, callback)
 {
-	var message, device;
+	var m, d;
+	db.getInstance();
 
 	var handler = function()
 	{
-		if (!message || !device)
+		if (!m || !d)
 			return;
 
-		device.message(message);
-		callback({ id: message.getId() });
+		d.message(m);
+		db.destroyInstance();
+		callback({ id: m.getId() });
 	};
 
 	try {
-		messages.add(message, function(m) {
-			message = m;
+		messages.add(message, function(e) {
+			m = e;
 			handler();
 		});
 
-		devices.get(id, function(d) {
-			device = d;
+		devices.get(id, function(e) {
+			d = e;
 			handler();
 		});
 	} catch (e) {
 		callback({ error: e.message });
 	}
+
+	return;
 };
 
-exports.registerDevice('ios', '584EEF6C-3F32-4AFC-B8BA-24D36B38F944', function(e)
+exports.registerDevice('ios', '5dc088a8fc317ff6eb1d765856130cb2b4c3dac4f581dad5a501a6da4cfd40d0', function(e)
 {
-	console.log(e);
-})
+	console.log('device: '+JSON.stringify(e));
+	return exports.sendMessage(e.id, 'test', function(e){
+		return console.log('message: '+JSON.stringify(e));
+	});
+});
+
