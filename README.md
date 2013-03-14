@@ -1,7 +1,11 @@
 # Message
 
-Message is an easy to use Node.js module that allows you to push notifications easily to mobile devices.
+Message is a Node.js module that allows you to message devices in a unified way. For example, you register a device endpoint to the module and it hands you a unique key. No more worrying about different messaging services, it's all located in one easy to use module.                                                                  
 
 ## Usage
 
-Nothing here yet, check back after it's been developed!
+This module is still under heavy development.
+
+## License
+
+MIT.
