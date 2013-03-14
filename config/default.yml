@@ -1,6 +1,0 @@
-ios:
-    key: /Users/sjlu/Desktop/key.pem
-    cert: /Users/sjlu/Desktop/cert.pem
-    ca: /Users/sjlu/Desktop/ca.pem
-
-mongo: mongodb://localhost/message
